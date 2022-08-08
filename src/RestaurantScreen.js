@@ -5,6 +5,7 @@ import { urlFor } from '../sanity'
 import { ArrowLeftIcon, QuestionMarkCircleIcon } from 'react-native-heroicons/outline'
 import { ChevronRightIcon, LocationMarkerIcon, StarIcon } from 'react-native-heroicons/solid'
 import DishRow from '../components/DIshRow'
+import BasketIcon from '../components/BasketIcon'
 
 
 const RestaurantScreen = () => {
@@ -30,6 +31,9 @@ const RestaurantScreen = () => {
 
 
   return (
+    <>
+    <BasketIcon />
+
     <ScrollView>
         <View className="relative">
             <Image 
@@ -68,7 +72,7 @@ const RestaurantScreen = () => {
                 </Text>
                 <ChevronRightIcon color="#00cc88" />
             </TouchableOpacity>
-            <View>
+            <View className="pb-36">
                 <Text className="px-4 pt-5 mb-3 font-bold text-xl">
                     Menu
                 </Text>
@@ -90,6 +94,7 @@ const RestaurantScreen = () => {
         </View>
       
     </ScrollView>
+    </>
   )
 }
 
