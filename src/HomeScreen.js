@@ -1,16 +1,20 @@
-import React, {useLayoutEffect} from 'react'
+import React, {useLayoutEffect, useState, useEffect} from 'react'
 import { SafeAreaView, View, Text, Platform, StatusBar, Image, TextInput, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import GlobalStyles from '../GlobalStyles'
 import {UserIcon, ChevronDownIcon, SearchIcon, AdjustmentsIcon } from 'react-native-heroicons/outline'
 import Categories from '../components/Categories'
 import FeaturedRow from '../components/FeaturedRow'
-
+import sanityClient  from '../sanity'
 
 
 
 
 const HomeScreen = () => {
+  const [featuredCategory, setfeaturedCategory] = useState([])
+
+
+
   const navigation = useNavigation()
 
   useLayoutEffect(() => {
@@ -19,6 +23,20 @@ const HomeScreen = () => {
       headerShown: false,
     })
   }, [navigation])
+
+  useEffect(() => {
+    sanityClient.fetch(`
+    *[_type == "featured"] {
+      ...,
+      restaurants[]->{
+        ...,
+        dishes[]->
+    }
+    }`).then((data) => {
+      setfeaturedCategory(data)
+    });
+
+  }, [sanityClient])
 
   return (
     <SafeAreaView className="bg-white pt-5" style={GlobalStyles.droidSafeArea}>
@@ -61,27 +79,20 @@ const HomeScreen = () => {
 
 
             {/* featured rows */}
-            <FeaturedRow 
-            id="123"
-              title="Featured"
-              description="Paid placements from our partners"
-            />
+            {featuredCategory?.map(category => (
+              <FeaturedRow
+              key={category._id} 
+                id={category._id}
+                title={category.name}
+                description={category.short_description}
+              />
+            ))}
+
+
 
             {/* Tasty Discounts */}
 
-            <FeaturedRow 
-            id="1234"
-              title="Tasty Discounts"
-              description="Everyone's been enjoying these juicy discounts"
-            />
-
-            {/* Offers new you */}
-
-            <FeaturedRow 
-            id="12345"
-              title="Offers new you"
-              description="Why not support your local restaurant new you"
-            />
+            
 
 
         </ScrollView>
