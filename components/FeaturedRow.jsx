@@ -25,9 +25,7 @@ const FeaturedRow = ({id, title, description}) => {
     ).then(data => {
       setRestaurants(data?.restaurants)
     })
-  }, [sanityClient])
-  // console.log(restaurants)
-
+  }, [sanityClient, id])
 
   return (
     <View>
@@ -56,7 +54,7 @@ const FeaturedRow = ({id, title, description}) => {
               dishes={restaurant.dishes}
               rating={restaurant.rating}
               short_description={restaurant.short_description}
-              genre={restaurant.genre}
+              genre={restaurant.type?.name}
               long={restaurant.long}
               lat={restaurant.lat}
           />

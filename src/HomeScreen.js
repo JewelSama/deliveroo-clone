@@ -37,6 +37,7 @@ const HomeScreen = () => {
     });
 
   }, [sanityClient])
+  // console.log(featuredCategory)
 
   return (
     <SafeAreaView className="bg-white pt-5" style={GlobalStyles.droidSafeArea}>
@@ -73,7 +74,7 @@ const HomeScreen = () => {
         
         {/* body */}
 
-        <ScrollView className="bg-gray-100" contentContainerStyle={{paddingBottom: 140}}>
+        <ScrollView className="bg-gray-100" contentContainerStyle={{paddingBottom: 125}}>
             {/* categories */}
             <Categories />
 
@@ -84,7 +85,8 @@ const HomeScreen = () => {
               key={category._id} 
                 id={category._id}
                 title={category.name}
-                description={category.short_description}
+                description={category.short_Description}
+                
               />
             ))}
 
