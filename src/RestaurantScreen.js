@@ -9,9 +9,11 @@ import BasketIcon from '../components/BasketIcon'
 import { useEffect } from 'react'
 import {useDispatch} from 'react-redux'
 import { setRestaurant } from '../features/RestaurantSlice'
+import { useState } from 'react'
 
 
 const RestaurantScreen = () => {
+    const [res, setRes] = useState([])
     const dispatch = useDispatch()
     const navigation = useNavigation()
     const {params: {
@@ -30,7 +32,7 @@ const RestaurantScreen = () => {
     
 
     useEffect(() => {
-        dispatch(setRestaurant({
+       dispatch(setRestaurant({
             id, 
             imageUri,
             title,
@@ -49,7 +51,6 @@ const RestaurantScreen = () => {
             headerShown: false
         })
     }, [])
-
 
   return (
     <>
