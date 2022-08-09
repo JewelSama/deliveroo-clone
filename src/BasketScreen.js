@@ -3,13 +3,14 @@ import React from 'react'
 import { useNavigation } from '@react-navigation/native' 
 import { selectRestaurant } from '../features/RestaurantSlice'
 import {useDispatch, useSelector} from 'react-redux'
-import { selectBasketItems } from '../features/BasketSlice'
+import { selectBasketItems, selectBasketTotal } from '../features/BasketSlice'
 import { useMemo } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { XCircleIcon } from 'react-native-heroicons/solid'
 import GlobalStyles from '../GlobalStyles'
-
+import { urlFor } from '../sanity'
+import { removeFromBasket } from '../features/BasketSlice'
 
 
 const BasketScreen = () => {
@@ -17,6 +18,7 @@ const BasketScreen = () => {
   const navigation = useNavigation()
   const restaurant = useSelector(selectRestaurant)
   const items = useSelector(selectBasketItems)
+  const basketTotal = useSelector(selectBasketTotal)
   const [groupedItemsInBasket, setGroupedItemsInBasket] = useState([])
 
 useEffect(() => {
@@ -28,7 +30,7 @@ useEffect(() => {
 
 }, [items])
 
-// console.log(groupedItemsInBasket)
+console.log(groupedItemsInBasket)
 
 
 
@@ -55,13 +57,53 @@ useEffect(() => {
           </TouchableOpacity>
         </View>
 
-        <ScrollView>
+        <ScrollView className="divide-y divide-gray-200">
           {Object.entries(groupedItemsInBasket).map(([key, items]) => (
-            <View key={key}>
-                <Text>{items.length} x</Text>
+            <View key={key} className="flex-row items-center space-x-3 bg-white py-2 px-5">
+                <Text className="text-[#00cc88]">{items.length} x</Text>
+                <Image 
+                  source={{ uri: urlFor(items[0]?.image).url() }}
+                  className="h-12 w-12 rounded-full"
+                />
+                <Text className="flex-1">{items[0]?.name}</Text>
+                <Text className="text-gray-600">
+                  ₦{items[0]?.price}
+                </Text>
+                <TouchableOpacity onPress={() => dispatch(removeFromBasket({id: key}))}>
+                  <Text className="text-[#00cc88] text-xs">
+                    Remove
+                  </Text>
+                </TouchableOpacity>
             </View>
 ))}
         </ScrollView>
+        <View className="p-5 bg-white mt-5 space-y-4">
+          <View className="flex-row justify-between">
+            <Text className="text-gray-400">Subtotal</Text>
+            <Text className="text-gray-400">
+              ₦{basketTotal}
+            </Text>
+          </View>
+
+          <View className="flex-row justify-between">
+            <Text className="text-gray-400">Delivery Fee</Text>
+            <Text className="text-gray-400">
+              ₦450
+            </Text>
+          </View>
+
+          <View className="flex-row justify-between">
+            <Text>Order Total</Text>
+            <Text className="font-extrabold">
+              ₦{basketTotal + 500}
+            </Text>
+          </View>
+
+          <TouchableOpacity className="rounded-lg bg-[#00cc88] p-4">
+            <Text className="text-center text-white text-lg font-bold">Place Order</Text>
+          </TouchableOpacity>
+
+        </View> 
 
       </View>
     </SafeAreaView>
