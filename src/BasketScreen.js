@@ -30,7 +30,7 @@ useEffect(() => {
 
 }, [items])
 
-console.log(groupedItemsInBasket)
+// console.log(groupedItemsInBasket)
 
 
 
@@ -99,7 +99,7 @@ console.log(groupedItemsInBasket)
             </Text>
           </View>
 
-          <TouchableOpacity className="rounded-lg bg-[#00cc88] p-4">
+          <TouchableOpacity onPress={() => navigation.navigate("PreparingOrderScreen")} className="rounded-lg bg-[#00cc88] p-4">
             <Text className="text-center text-white text-lg font-bold">Place Order</Text>
           </TouchableOpacity>
 
